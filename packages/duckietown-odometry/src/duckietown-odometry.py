@@ -72,7 +72,6 @@ class OdometryNode(DTROS):
             self.right_distance += dist
             self.pub_integrated_distance_right.publish(self.right_distance)
             self.prev_right = rel_ticks
-            self.log("RIGHT WHEEL DISTANCE: %s" % self.right_distance)
 
 
 if __name__ == '__main__':
