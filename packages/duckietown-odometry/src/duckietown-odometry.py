@@ -22,16 +22,16 @@ class OdometryNode(DTROS):
         self.prev_right = 0.0
 
         # Get static parameters
-        self._radius = rospy.get_param(f'/{self.veh_name}/kinematics_node/radius', 100)
+        self._radius = rospy.get_param(f'{self.veh_name}/kinematics_node/radius', 100)
 
         # Subscribing to the wheel encoders
-        self.sub_encoder_ticks_left = rospy.Subscriber(f'/{self.veh_name}/left_wheel_encoder_node/tick',WheelEncoderStamped,callback=self.cb_encoder_data,callback_args='left')
-        self.sub_encoder_ticks_right = rospy.Subscriber(f'/{self.veh_name}/right_wheel_encoder_node/tick',WheelEncoderStamped,callback=self.cb_encoder_data,callback_args='right')
-        self.sub_executed_commands = rospy.Subscriber(f'/{self.veh_name}/wheels_driver_node/wheels_cmd_executed',WheelsCmdStamped,callback=self.cb_executed_commands)
+        self.sub_encoder_ticks_left = rospy.Subscriber(f'{self.veh_name}/left_wheel_encoder_node/tick',WheelEncoderStamped,callback=self.cb_encoder_data,callback_args='left')
+        self.sub_encoder_ticks_right = rospy.Subscriber(f'{self.veh_name}/right_wheel_encoder_node/tick',WheelEncoderStamped,callback=self.cb_encoder_data,callback_args='right')
+        self.sub_executed_commands = rospy.Subscriber(f'{self.veh_name}/wheels_driver_node/wheels_cmd_executed',WheelsCmdStamped,callback=self.cb_executed_commands)
 
         # Publishers
-        self.pub_integrated_distance_left = rospy.Publisher(f'/{self.veh_name}/left_wheel_distance_traveled',Float32,queue_size=1)
-        self.pub_integrated_distance_right = rospy.Publisher(f'/{self.veh_name}/right_wheel_distance_traveled',Float32,queue_size=1)
+        self.pub_integrated_distance_left = rospy.Publisher(f'{self.veh_name}/left_wheel_distance_traveled',Float32,queue_size=1)
+        self.pub_integrated_distance_right = rospy.Publisher(f'{self.veh_name}/right_wheel_distance_traveled',Float32,queue_size=1)
 
         self.log("Initialized")
 
