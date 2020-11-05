@@ -32,7 +32,6 @@ class OdometryNode(DTROS):
         # Subscribing to the wheel encoders
         self.sub_encoder_ticks_left = rospy.Subscriber(f'{self.veh_name}/left_wheel_encoder_node/tick',WheelEncoderStamped,callback=self.cb_encoder_data,callback_args='left')
         self.sub_encoder_ticks_right = rospy.Subscriber(f'{self.veh_name}/right_wheel_encoder_node/tick',WheelEncoderStamped,callback=self.cb_encoder_data,callback_args='right')
-        self.sub_executed_commands = rospy.Subscriber(f'{self.veh_name}/wheels_driver_node/wheels_cmd_executed',WheelsCmdStamped,callback=self.cb_executed_commands)
 
         # Publishers
         self.pub_integrated_distance_left = rospy.Publisher(f'{self.veh_name}/left_wheel_distance_traveled',Float32,queue_size=1)
@@ -64,7 +63,7 @@ class OdometryNode(DTROS):
             self.left_distance += dist
             self.pub_integrated_distance_left.publish(self.left_distance)
             self.prev_left = rel_ticks
-            self.log(self.left_distance)
+            self.log("LEFT WHEEL DISTANCE: %s" % self.left_distance)
 
         elif wheel == 'right':
             rel_ticks = ticks - self.initial_ticks_right
@@ -75,11 +74,6 @@ class OdometryNode(DTROS):
             self.pub_integrated_distance_right.publish(self.right_distance)
             self.prev_right = rel_ticks
 
-
-    def cb_executed_commands(self, msg):
-        """ Use the executed commands to determine the direction of travel of each wheel.
-        """
-        pass
 
 if __name__ == '__main__':
     node = OdometryNode(node_name='my_odometry_node')
