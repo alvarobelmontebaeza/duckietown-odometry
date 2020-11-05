@@ -74,7 +74,7 @@ class OdometryNode(DTROS):
             # Calculate wheel radius every 1m
             if self.left_distance - self.last_dist_rad_left >= 1.0:                
                 # Assume 1 meter has been traveled
-                left_radius = (1.0 * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_left))
+                left_radius = ((self.left_distance - self.last_dist_rad_left) * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_left))
 
                 # Notify the measured wheel radius
                 self.log('LEFT RADIUS: %.4f' % left_radius)
@@ -95,7 +95,7 @@ class OdometryNode(DTROS):
             # Calculate wheel radius every 1m
             if self.right_distance - self.last_dist_rad_right >= 1.0:                
                 # Assume 1 meter has been traveled
-                right_radius = (1.0 * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_right))
+                right_radius = ((self.right_distance - self.last_dist_rad_right) * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_right))
 
                 # Notify the measured wheel radius
                 self.log('RIGHT RADIUS: %.4f' % right_radius)
