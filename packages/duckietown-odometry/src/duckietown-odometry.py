@@ -106,7 +106,7 @@ class OdometryNode(DTROS):
 
 
 if __name__ == '__main__':
-    node = OdometryNode(node_name='my_odometry_node')
+    node = OdometryNode(node_name= os.environ['VEHICLE_NAME'] + '/odometry_node')
     # Keep it spinning to keep the node alive
     rospy.loginfo("wheel_encoder_node is up and running...")
     rospy.spin()
