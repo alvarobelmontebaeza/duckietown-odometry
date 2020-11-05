@@ -82,3 +82,8 @@ LABEL org.duckietown.label.module.type="${REPO_NAME}" \
     org.duckietown.label.maintainer="${MAINTAINER}"
 # <== Do not change the code above this line
 # <==================================================
+WORKDIR /bagfiles
+
+RUN export ROS_MASTER_URI
+
+RUN export ROS_IP
