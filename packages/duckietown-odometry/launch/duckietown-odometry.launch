@@ -1,6 +1,6 @@
 <launch>
  
-  <node pkg="duckietown-odometry" type="duckietown-odometry.py" name="my_odometry_node" output="screen"/>
+  <node pkg="duckietown-odometry" type="duckietown-odometry.py" name="odometry_node" output="screen"/>
   
 
 </launch>
