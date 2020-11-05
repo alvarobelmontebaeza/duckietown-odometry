@@ -13,8 +13,7 @@ dt-launchfile-init
 # NOTE: Use `dt-exec COMMAND` to run the main process (blocking process)
 
 # launching app
-dt-exec rosrun duckietown-odometry duckietown-odometry.py
-dt-exec /bin/bash
+roslaunch duckietown-odometry duckietown-odometry.launch veh:=$VEHICLE_NAME
 
 # ----------------------------------------------------------------------------
 # YOUR CODE ABOVE THIS LINE
