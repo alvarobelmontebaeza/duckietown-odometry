@@ -61,7 +61,7 @@ class OdometryNode(DTROS):
             # Accumulate distance and publish it
             self.left_distance += dist
             self.pub_integrated_distance_left.publish(self.left_distance)
-            self.prev_left = rel_tickss
+            self.prev_left = rel_ticks
 
         elif wheel == 'right':
             rel_ticks = ticks - self.initial_ticks_right
