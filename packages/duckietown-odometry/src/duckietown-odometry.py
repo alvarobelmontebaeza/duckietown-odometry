@@ -25,6 +25,12 @@ class OdometryNode(DTROS):
         self.initial_ticks_left = 0.0
         self.initial_ticks_right = 0.0
 
+        # Variables to calculate wheel radius every 1m
+        self.last_dist_rad_left = 0.0
+        self.last_ticks_rad_left = 0.0
+        self.last_dist_rad_right = 0.0
+        self.last_ticks_rad_right = 0.0
+
         # Get static parameters
         self._radius = rospy.get_param(f'{self.veh_name}/kinematics_node/radius', 100)
         self._resolution = 135
@@ -49,9 +55,11 @@ class OdometryNode(DTROS):
         if wheel == 'left' and self.first_message_left == True:
             self.first_message_left = False
             self.initial_ticks_left = ticks
+            self.last_ticks_rad_left = ticks
         if wheel == 'right' and self.first_message_right ==True:
             self.first_message_right = False
             self.initial_ticks_right = ticks
+            self.last_ticks_rad_right = ticks
 
         # Compute total distance traveled by the wheel
         if wheel == 'left':
@@ -63,6 +71,18 @@ class OdometryNode(DTROS):
             self.pub_integrated_distance_left.publish(self.left_distance)
             self.prev_left = rel_ticks
 
+            # Calculate wheel radius every 1m
+            if self.left_distance - self.last_dist_rad_left >= 1.0:                
+                # Assume 1 meter has been traveled
+                left_radius = (1.0 * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_left))
+
+                # Notify the measured wheel radius
+                self.log('LEFT RADIUS: %.4f' % left_radius)
+
+                # Update variables for next iteration
+                self.last_dist_rad_left = self.left_distance
+                self.last_ticks_rad_left = ticks
+
         elif wheel == 'right':
             rel_ticks = ticks - self.initial_ticks_right
             diff_ticks = np.abs(rel_ticks - self.prev_right)
@@ -71,6 +91,18 @@ class OdometryNode(DTROS):
             self.right_distance += dist
             self.pub_integrated_distance_right.publish(self.right_distance)
             self.prev_right = rel_ticks
+
+            # Calculate wheel radius every 1m
+            if self.right_distance - self.last_dist_rad_right >= 1.0:                
+                # Assume 1 meter has been traveled
+                right_radius = (1.0 * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_right))
+
+                # Notify the measured wheel radius
+                self.log('RIGHT RADIUS: %.4f' % right_radius)
+
+                # Update variables for next iteration
+                self.last_dist_rad_right = self.right_distance
+                self.last_ticks_rad_right = ticks
 
 
 if __name__ == '__main__':
