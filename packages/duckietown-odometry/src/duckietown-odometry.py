@@ -16,6 +16,7 @@ class OdometryNode(DTROS):
         # Initialize the DTROS parent class
         super(OdometryNode, self).__init__(node_name=node_name, node_type=NodeType.PERCEPTION)
         self.veh_name = "/" + os.environ['VEHICLE_NAME']
+        
         self.left_distance = 0.0
         self.prev_left = 0.0
         self.right_distance = 0.0
@@ -74,7 +75,7 @@ class OdometryNode(DTROS):
             # Calculate wheel radius every 1m
             if self.left_distance - self.last_dist_rad_left >= 1.0:                
                 # Assume 1 meter has been traveled
-                left_radius = np.abs(((self.left_distance - self.last_dist_rad_left) * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_left)))
+                left_radius = np.abs((1.0 * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_left)))
 
                 # Notify the measured wheel radius
                 self.log('LEFT RADIUS: %.4f' % left_radius)
@@ -95,7 +96,7 @@ class OdometryNode(DTROS):
             # Calculate wheel radius every 1m
             if self.right_distance - self.last_dist_rad_right >= 1.0:                
                 # Assume 1 meter has been traveled
-                right_radius = np.abs(((self.right_distance - self.last_dist_rad_right) * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_right)))
+                right_radius = np.abs((1.0 * self._resolution) / (2 * np.pi * (ticks - self.last_ticks_rad_right)))
 
                 # Notify the measured wheel radius
                 self.log('RIGHT RADIUS: %.4f' % right_radius)
